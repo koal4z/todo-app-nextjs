@@ -1,10 +1,12 @@
+import React, { useState } from 'react';
+
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
-import { useState } from 'react';
 
 export default function Home() {
   const [list, setList] = useState(['list1', 'list2', 'list3']);
   const [input, setInput] = useState('');
+  const [isdeleted, setIsdeleted] = useState(false);
 
   const addList = () => {
     if (input !== '') {
@@ -13,42 +15,88 @@ export default function Home() {
     }
   };
 
+  const isEnter = (e) => {
+    if (e.keyCode === 13) {
+      addList();
+    }
+  };
+
   const handleChange = (e) => {
-    const value = e.target.value;
+    const { value } = e.target;
     setInput(value);
   };
 
   const handlerDeleted = (e) => {
-    const listData = e.target.dataset.list;
-    setList(() => list.filter((el) => el !== listData));
+    const listId = e.target.parentNode.dataset.list;
+    setList(() => list.filter((el) => el !== list[listId]));
   };
+
+  const handlerChecked = (e) => {
+    const listel = e.target;
+    const tag = listel.tagName;
+    if (tag === 'P' && !listel.style.textDecoration) {
+      listel.style.textDecoration = 'line-through red';
+    } else {
+      listel.style.textDecoration = null;
+    }
+  };
+
+  const showDeletor = () => {
+    if (!isdeleted) {
+      setIsdeleted(true);
+    } else {
+      setIsdeleted(false);
+    }
+  };
+
   return (
     <div className={styles.container}>
       <Head>
         <title>Todo Next App</title>
       </Head>
 
-      <main>
+      <header className={styles.header}>Header part</header>
+      <main className={styles.main}>
         <h1>My Todo List</h1>
         <ul>
-          {list.map((l) => {
-            return (
-              <li
-                key={l}
-                data-list={l}
-                className={styles.list}
-                onClick={handlerDeleted}
-              >
-                {l}
-              </li>
-            );
-          })}
+          {list.map((l, i) => (
+            <li
+              key={l}
+              data-list={i}
+              className={styles.list}
+              onClick={handlerChecked}
+            >
+              <p className={styles.text}>{l}</p>
+              {isdeleted ? (
+                <button
+                  type="button"
+                  className={styles.deleted}
+                  onClick={handlerDeleted}
+                >
+                  X
+                </button>
+              ) : null}
+            </li>
+          ))}
         </ul>
-        <input type='text' name='add' onChange={handleChange} value={input} />
-        <button onClick={addList}>Add</button>
+        <input
+          type="text"
+          name="add"
+          onChange={handleChange}
+          value={input}
+          onKeyDown={isEnter}
+        />
+        <button type="button" onClick={addList}>
+          Add
+        </button>
+        <div>
+          <button type="button" onClick={showDeletor}>
+            Delete
+          </button>
+        </div>
       </main>
 
-      <footer>
+      <footer className={styles.footer}>
         <p>Dev By koal4z</p>
       </footer>
     </div>
