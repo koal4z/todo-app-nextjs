@@ -40,5 +40,8 @@
   },
   "env": {
     "browser": true
+  },
+  "globals": {
+    "React": "writable"
   }
 }

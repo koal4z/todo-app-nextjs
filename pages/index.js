@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import Link from 'next/link';
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
 
@@ -7,6 +8,7 @@ export default function Home() {
   const [list, setList] = useState(['list1', 'list2', 'list3']);
   const [input, setInput] = useState('');
   const [isdeleted, setIsdeleted] = useState(false);
+  const [islink, setIslink] = useState(false);
 
   const addList = () => {
     if (input !== '') {
@@ -44,8 +46,18 @@ export default function Home() {
   const showDeletor = () => {
     if (!isdeleted) {
       setIsdeleted(true);
+      setIslink(false);
     } else {
       setIsdeleted(false);
+    }
+  };
+
+  const showLink = () => {
+    if (!islink) {
+      setIslink(true);
+      setIsdeleted(false);
+    } else {
+      setIslink(false);
     }
   };
 
@@ -67,6 +79,7 @@ export default function Home() {
               onClick={handlerChecked}
             >
               <p className={styles.text}>{l}</p>
+
               {isdeleted ? (
                 <button
                   type="button"
@@ -75,6 +88,13 @@ export default function Home() {
                 >
                   X
                 </button>
+              ) : null}
+              {islink ? (
+                <Link href="/todo/list">
+                  <a href="/#" className={styles.linked}>
+                    &#9868;
+                  </a>
+                </Link>
               ) : null}
             </li>
           ))}
@@ -92,6 +112,9 @@ export default function Home() {
         <div>
           <button type="button" onClick={showDeletor}>
             Delete
+          </button>
+          <button type="button" onClick={showLink}>
+            Go List
           </button>
         </div>
       </main>
