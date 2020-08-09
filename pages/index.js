@@ -30,7 +30,7 @@ export default function Home() {
 
   const handlerDeleted = (e) => {
     const listId = e.target.parentNode.dataset.list;
-    setList(() => list.filter((el) => el !== list[listId]));
+    setList(() => list.filter((el, i) => `${el}-${i + 1}` !== listId));
   };
 
   const handlerChecked = (e) => {
@@ -74,7 +74,7 @@ export default function Home() {
           {list.map((l, i) => (
             <li
               key={l}
-              data-list={i}
+              data-list={`${l}-${i + 1}`}
               className={styles.list}
               onClick={handlerChecked}
             >
@@ -90,9 +90,9 @@ export default function Home() {
                 </button>
               ) : null}
               {islink ? (
-                <Link href="/todo/list">
+                <Link href="/todo/[todo]" as={`/todo/${l}`}>
                   <a href="/#" className={styles.linked}>
-                    &#9868;
+                    &rarr;
                   </a>
                 </Link>
               ) : null}

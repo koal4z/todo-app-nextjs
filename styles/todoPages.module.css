@@ -1,14 +1,14 @@
 .container {
   background-color: bisque;
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
+  height: 100%;
   padding: 2rem;
 
   display: grid;
-  grid-template-rows: minmax(auto, 10%) minmax(auto, 10%) repeat(
-      3,
-      minmax(auto, 1fr)
-    ) minmax(auto, 10%);
+  grid-template-rows:
+    minmax(auto, 1rem) minmax(auto, 10%) repeat(3, minmax(auto, 1fr))
+    minmax(auto, 10%);
   grid-template-columns: repeat(6, minmax(auto, 1fr));
 }
 
@@ -31,10 +31,13 @@
 
 .listZone {
   background-color: blue;
-  grid-row: 3/5;
+  grid-row: 3/6;
   grid-column: 2/5;
 
-  align-self: start;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 100%;
 }
 
 .listZone ul {
@@ -49,15 +52,34 @@
 
   border: 1px solid cornsilk;
   margin: 0.5rem 0;
+  padding: 0.5rem 1rem;
+
+  font-size: 1rem;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.listZone > input {
+  width: 100%;
+  text-align: center;
+  height: 2rem;
+  font-size: 1rem;
+}
+
+.listZone ul li > p {
+  margin: 0;
+  padding: 0;
 }
 
 .buttonZone {
   background-color: green;
-  grid-row: 3;
+  grid-row: 3/6;
   grid-column: 5/6;
 
   flex-direction: column;
-  align-self: start;
+  justify-content: start;
 }
 
 .buttonZone > button {
@@ -69,4 +91,27 @@
   background-color: yellow;
   grid-row: 6;
   grid-column: 2/6;
+}
+
+.deleted {
+  color: red;
+}
+
+.deleted {
+  padding: 0 0.2rem;
+  cursor: pointer;
+  font-weight: 900;
+  font-size: 0.8rem;
+
+  display: inline-block;
+  background-color: initial;
+  border-width: 0;
+  border-style: none;
+  border-color: none;
+  text-rendering: auto;
+  outline: none;
+}
+
+.gab {
+  flex: 1 100%;
 }
