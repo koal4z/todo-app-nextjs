@@ -41,8 +41,9 @@
 }
 
 .linked {
-  color: #f0e919;
+  color: #ccc80d;
   font-size: 1.5rem;
+  font-weight: bolder;
   align-self: center;
   text-decoration: none;
 }

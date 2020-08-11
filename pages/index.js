@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+import PropTypes from 'prop-types';
 
 import Link from 'next/link';
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
 
-export default function Home() {
-  const [list, setList] = useState(['list1', 'list2', 'list3']);
+export default function Home({ listData }) {
+  const [list, setList] = useState(listData);
   const [input, setInput] = useState('');
   const [isdeleted, setIsdeleted] = useState(false);
   const [islink, setIslink] = useState(false);
@@ -73,12 +75,12 @@ export default function Home() {
         <ul>
           {list.map((l, i) => (
             <li
-              key={l}
+              key={l._id}
               data-list={`${l}-${i + 1}`}
               className={styles.list}
               onClick={handlerChecked}
             >
-              <p className={styles.text}>{l}</p>
+              <p className={styles.text}>{l.name}</p>
 
               {isdeleted ? (
                 <button
@@ -124,4 +126,19 @@ export default function Home() {
       </footer>
     </div>
   );
+}
+
+Home.propTypes = {
+  listData: PropTypes.instanceOf(Array).isRequired
+};
+
+export async function getStaticProps() {
+  const res = await axios({
+    method: 'GET',
+    url: 'http://localhost:3000/api/list'
+  });
+  const listData = res.data.data;
+  return {
+    props: { listData }
+  };
 }
