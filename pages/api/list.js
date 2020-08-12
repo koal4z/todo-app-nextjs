@@ -36,6 +36,37 @@ export default async (req, res) => {
         });
       }
       break;
+    case 'PUT':
+      try {
+        const data = await List.findByIdAndUpdate(
+          { _id: req.body._id },
+          { name: req.body.name },
+          { new: true, runValidators: true }
+        );
+        res.status(201).json({
+          status: 'success',
+          data
+        });
+      } catch (err) {
+        res.status(500).json({
+          status: 'fail',
+          message: err.message
+        });
+      }
+      break;
+    case 'DELETE':
+      try {
+        await List.findByIdAndDelete({ _id: req.body._id });
+        res.status(204).json({
+          status: 'success'
+        });
+      } catch (err) {
+        res.status(500).json({
+          status: 'fail',
+          message: err.message
+        });
+      }
+      break;
     default:
       res.status(500).json({
         status: 'fail',

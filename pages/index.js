@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 
@@ -12,9 +12,47 @@ export default function Home({ listData }) {
   const [isdeleted, setIsdeleted] = useState(false);
   const [islink, setIslink] = useState(false);
 
+  const getListData = async () => {
+    const res = await axios({
+      method: 'GET',
+      url: 'http://localhost:3000/api/list'
+    });
+
+    setList(res.data.data);
+  };
+
+  useEffect(() => {
+    getListData();
+  }, [list]);
+
+  const createList = async (data) => {
+    try {
+      await axios({
+        method: 'POST',
+        url: 'http://localhost:3000/api/list',
+        data
+      });
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
+  const deleteList = async (data) => {
+    try {
+      await axios({
+        method: 'DELETE',
+        url: 'http://localhost:3000/api/list',
+        data
+      });
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
   const addList = () => {
     if (input !== '') {
-      setList([...list, input]);
+      // setList([...list, input]);
+      createList({ name: input });
       setInput('');
     }
   };
@@ -31,8 +69,9 @@ export default function Home({ listData }) {
   };
 
   const handlerDeleted = (e) => {
-    const listId = e.target.parentNode.dataset.list;
-    setList(() => list.filter((el, i) => `${el}-${i + 1}` !== listId));
+    const listId = { _id: e.target.parentNode.dataset.list };
+    // setList(() => list.filter((el, i) => `${el}-${i + 1}` !== listId));
+    deleteList(listId);
   };
 
   const handlerChecked = (e) => {
@@ -73,10 +112,11 @@ export default function Home({ listData }) {
       <main className={styles.main}>
         <h1>My Todo List</h1>
         <ul>
-          {list.map((l, i) => (
+          {list.map((l) => (
             <li
               key={l._id}
-              data-list={`${l}-${i + 1}`}
+              // data-list={`${l}-${i + 1}`}
+              data-list={l._id}
               className={styles.list}
               onClick={handlerChecked}
             >
@@ -92,7 +132,7 @@ export default function Home({ listData }) {
                 </button>
               ) : null}
               {islink ? (
-                <Link href="/todo/[todo]" as={`/todo/${l}`}>
+                <Link href="/todo/[todo]" as={`/todo/${l.name}`}>
                   <a href="/#" className={styles.linked}>
                     &rarr;
                   </a>
@@ -133,12 +173,16 @@ Home.propTypes = {
 };
 
 export async function getStaticProps() {
-  const res = await axios({
-    method: 'GET',
-    url: 'http://localhost:3000/api/list'
-  });
-  const listData = res.data.data;
-  return {
-    props: { listData }
-  };
+  try {
+    const res = await axios({
+      method: 'GET',
+      url: 'http://localhost:3000/api/list'
+    });
+    const listData = res.data.data;
+    return {
+      props: { listData }
+    };
+  } catch (err) {
+    console.log(err.message);
+  }
 }
