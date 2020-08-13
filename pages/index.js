@@ -69,9 +69,9 @@ export default function Home({ listData }) {
   };
 
   const handlerDeleted = (e) => {
-    const listId = { _id: e.target.parentNode.dataset.list };
+    const l = JSON.parse(e.target.parentNode.dataset.list);
     // setList(() => list.filter((el, i) => `${el}-${i + 1}` !== listId));
-    deleteList(listId);
+    deleteList(l);
   };
 
   const handlerChecked = (e) => {
@@ -116,7 +116,7 @@ export default function Home({ listData }) {
             <li
               key={l._id}
               // data-list={`${l}-${i + 1}`}
-              data-list={l._id}
+              data-list={JSON.stringify(l)}
               className={styles.list}
               onClick={handlerChecked}
             >

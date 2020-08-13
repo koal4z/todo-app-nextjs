@@ -1,6 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import dbConnect from '../../libs/connectDB';
 import List from '../../models/list';
+import Todo from '../../models/todo';
 
 dbConnect();
 
@@ -57,6 +58,7 @@ export default async (req, res) => {
     case 'DELETE':
       try {
         await List.findByIdAndDelete({ _id: req.body._id });
+        await Todo.deleteMany({ listName: req.body.name });
         res.status(204).json({
           status: 'success'
         });
