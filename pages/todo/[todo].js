@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
+import axios from 'axios';
 import styles from '../../styles/todoPages.module.css';
 
 export default function Todo() {
@@ -137,4 +138,45 @@ export default function Todo() {
       </div>
     </>
   );
+}
+
+export async function getStaticProps({ params }) {
+  try {
+    const res = await axios({
+      method: 'GET',
+      url: `http://localhost:3000/api/todo/${params.todo}`
+    });
+    const todoData = res.data.data;
+    console.log(todoData);
+
+    return {
+      props: { todoData }
+    };
+  } catch (err) {
+    console.log(err.message);
+  }
+}
+
+const getParams = async () => {
+  try {
+    const res = await axios({
+      method: 'GET',
+      url: 'http://localhost:3000/api/list'
+    });
+    return res.data.data.map((l) => l.name);
+  } catch (err) {
+    console.log(err.message);
+  }
+};
+
+export async function getStaticPaths() {
+  const listNames = await getParams();
+  const paths = listNames.map((ln) => {
+    return { params: { todo: ln } };
+  });
+
+  return {
+    paths: paths,
+    fallback: false
+  };
 }
