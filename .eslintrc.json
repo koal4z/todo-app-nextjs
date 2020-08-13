@@ -8,6 +8,11 @@
         "endOfLine": "lf"
       }
     ],
+    "arrow-body-style": [
+      "error",
+      "as-needed",
+      { "requireReturnForObjectLiteral": true }
+    ],
     "linebreak-style": 0,
     "spaced-comment": "off",
     "no-console": "off",
@@ -22,6 +27,9 @@
     "prefer-destructuring": ["error", { "object": true, "array": false }],
     "no-unused-vars": ["warn", { "argsIgnorePattern": "req|res|next|val" }],
     "comma-dangle": ["warn", "never"],
+    //react
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "jsx-a11y/click-events-have-key-events": 0,
     "react/jsx-one-expression-per-line": "off",

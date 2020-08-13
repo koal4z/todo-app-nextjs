@@ -30,7 +30,7 @@ export default async (req, res) => {
         listData.todo.push(data._id);
         listData.save();
 
-        res.status(200).json({
+        res.status(201).json({
           status: 'success',
           data,
           listData
