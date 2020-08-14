@@ -109,7 +109,19 @@ export default function Todo({ todoData }) {
         data: { type: 'deleteAll', listName: todo }
       });
     } catch (err) {
-      console.log(err);
+      console.log(err.message);
+    }
+  };
+
+  const upDateTodos = async (data) => {
+    try {
+      await axios({
+        method: 'PUT',
+        url: `http://localhost:3000/api/todo/${todo}`,
+        data
+      });
+    } catch (err) {
+      console.log(err.message);
     }
   };
 
@@ -119,17 +131,19 @@ export default function Todo({ todoData }) {
     } else {
       setShowReplace(false);
       const inputEl = Array.from(document.querySelectorAll('.inputReplace'));
-      const newTodo = [];
+      // const newTodo = [];
 
-      inputEl.forEach((el) => {
+      inputEl.forEach((el, i) => {
         if (el.value) {
-          newTodo.push(el.value);
+          // newTodo.push(el.value);
+          todoData[i].name = el.value;
         } else {
-          newTodo.push(el.placeholder);
+          // newTodo.push(el.placeholder);
+          todoData[i].name = el.placeholder;
         }
       });
-
-      setList(newTodo);
+      upDateTodos(todoData);
+      // setList(newTodo);
     }
   };
 

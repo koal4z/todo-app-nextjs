@@ -43,6 +43,24 @@ export default async (req, res) => {
         });
       }
       break;
+    case 'PUT':
+      try {
+        Promise.all(
+          req.body.map(
+            async (obj) => await Todo.findByIdAndUpdate({ _id: obj._id }, { name: obj.name })
+          )
+        );
+
+        res.status(204).json({
+          status: 'success'
+        });
+      } catch (err) {
+        res.status(500).json({
+          status: 'fail',
+          message: err.message
+        });
+      }
+      break;
     case 'DELETE':
       try {
         if (req.body.type === 'deleteAll') {
