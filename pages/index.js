@@ -22,7 +22,11 @@ export default function Home({ listData }) {
   };
 
   useEffect(() => {
+    const abortController = new AbortController();
     getListData();
+    return function cleanUp() {
+      abortController.abort();
+    };
   }, [list]);
 
   const createList = async (data) => {

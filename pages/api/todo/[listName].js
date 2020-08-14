@@ -43,6 +43,26 @@ export default async (req, res) => {
         });
       }
       break;
+    case 'DELETE':
+      try {
+        if (req.body.type === 'deleteAll') {
+          await Todo.deleteMany({ listName: req.body.listName });
+          return res.status(204).json({
+            status: 'success',
+            message: 'Deleting in this todo success!'
+          });
+        }
+        await Todo.findByIdAndDelete({ _id: req.body.id });
+        res.status(204).json({
+          status: 'success'
+        });
+      } catch (err) {
+        res.status(500).json({
+          status: 'fail',
+          message: err.message
+        });
+      }
+      break;
     default:
       res.status(500).json({
         status: 'fail',

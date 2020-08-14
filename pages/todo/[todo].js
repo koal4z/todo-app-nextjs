@@ -17,12 +17,16 @@ export default function Todo({ todoData }) {
   const [showReplace, setShowReplace] = useState(false);
 
   const getAllTodoData = async () => {
-    const res = await axios({
-      method: 'GET',
-      url: `http://localhost:3000/api/todo/${todo}`
-    });
+    try {
+      const res = await axios({
+        method: 'GET',
+        url: `http://localhost:3000/api/todo/${todo}`
+      });
 
-    setList(res.data.data);
+      setList(res.data.data);
+    } catch (err) {
+      console.log(err.message);
+    }
   };
 
   useEffect(() => {
@@ -69,6 +73,18 @@ export default function Todo({ todoData }) {
     }
   };
 
+  const deleteTodoData = async (data) => {
+    try {
+      await axios({
+        method: 'DELETE',
+        url: `http://localhost:3000/api/todo/${todo}`,
+        data
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const showDeletor = () => {
     if (!isdeleted) {
       setIsdeleted(true);
@@ -78,12 +94,23 @@ export default function Todo({ todoData }) {
   };
 
   const handlerDeleted = (e) => {
-    const listId = e.target.parentNode.dataset.list;
-    return setList(() => list.filter((el, i) => `${el}-${i + 1}` !== listId));
+    const todoId = e.target.parentNode.dataset.list;
+
+    deleteTodoData({ id: todoId });
+    // return setList(() => list.filter((el, i) => `${el}-${i + 1}` !== listId));
   };
 
-  const alldelete = () => {
-    setList([]);
+  const allDelete = async () => {
+    // setList([]);
+    try {
+      await axios({
+        method: 'DELETE',
+        url: `http://localhost:3000/api/todo/${todo}`,
+        data: { type: 'deleteAll', listName: todo }
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const handlerReplace = () => {
@@ -159,7 +186,7 @@ export default function Todo({ todoData }) {
             delete
           </button>
           <div className={styles.gab}> </div>
-          <button type="button" onClick={alldelete}>
+          <button type="button" onClick={allDelete}>
             delete all
           </button>
         </div>
