@@ -1,21 +1,12 @@
 .container {
-  /* display: flex;
-  height: 100vh;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column; */
-
   height: 100vh;
   display: grid;
-  grid-template-rows: 10% 80% 10%;
+  grid-template-rows: minmax(5rem, 10%) minmax(25rem, 80%) minmax(5rem, 10%);
   grid-template-columns: 25% 50% 25%;
   text-align: center;
+  padding: 1rem;
 }
-.header {
-  grid-row: 1;
-  grid-column: 1/4;
-  background-color: aqua;
-}
+
 .main {
   grid-column: 2/3;
 }
@@ -38,14 +29,14 @@
 
 .deleted {
   color: red;
+  font-size: 1.5rem;
 }
 
 .linked {
-  color: #ccc80d;
-  font-size: 1.5rem;
-  font-weight: bolder;
+  color: #f5fb2f;
   align-self: center;
   text-decoration: none;
+  font-size: 2rem;
 }
 
 .deleted,
@@ -53,7 +44,7 @@
   padding: 0 0.2rem;
   cursor: pointer;
   font-weight: 900;
-  font-size: 1.5rem;
+
 
   display: inline-block;
   background-color: initial;
@@ -68,11 +59,11 @@
   transform: translate(-0.2rem, -0.2rem);
 }
 
-.footer {
-  position: fixed;
-  top: 90%;
-  width: 100%;
-  transform: translateY(70%);
-  text-align: center;
-  background-color: aqua;
+.checkmark {
+  display: block;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #23c012;
+  align-self: center;
+  padding-right: 0.5rem;
 }

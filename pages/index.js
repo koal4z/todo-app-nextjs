@@ -6,6 +6,9 @@ import Link from 'next/link';
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
 
+import Header from '../components/header';
+import Footer from '../components/footer';
+
 export default function Home({ listData }) {
   const [list, setList] = useState(listData);
   const [input, setInput] = useState('');
@@ -17,7 +20,6 @@ export default function Home({ listData }) {
       method: 'GET',
       url: 'http://localhost:3000/api/list'
     });
-
     setList(res.data.data);
   };
 
@@ -81,10 +83,13 @@ export default function Home({ listData }) {
   const handlerChecked = (e) => {
     const listel = e.target;
     const tag = listel.tagName;
+    const text = listel.parentNode.querySelector('span');
     if (tag === 'P' && !listel.style.textDecoration) {
       listel.style.textDecoration = 'line-through red';
+      text.innerHTML = '&#10003;';
     } else {
       listel.style.textDecoration = null;
+      text.innerHTML = ' ';
     }
   };
 
@@ -111,8 +116,7 @@ export default function Home({ listData }) {
       <Head>
         <title>Todo Next App</title>
       </Head>
-
-      <header className={styles.header}>Header part</header>
+      <Header />
       <main className={styles.main}>
         <h1>My Todo List</h1>
         <ul>
@@ -124,6 +128,7 @@ export default function Home({ listData }) {
               className={styles.list}
               onClick={handlerChecked}
             >
+              <span className={styles.checkmark}> </span>
               <p className={styles.text}>{l.name}</p>
 
               {isdeleted ? (
@@ -138,7 +143,7 @@ export default function Home({ listData }) {
               {islink ? (
                 <Link href="/todo/[todo]" as={`/todo/${l.name}`}>
                   <a href="/#" className={styles.linked}>
-                    &rarr;
+                    &#10132;
                   </a>
                 </Link>
               ) : null}
@@ -164,10 +169,7 @@ export default function Home({ listData }) {
           </button>
         </div>
       </main>
-
-      <footer className={styles.footer}>
-        <p>Dev By koal4z</p>
-      </footer>
+      <Footer />
     </div>
   );
 }

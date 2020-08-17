@@ -1,0 +1,17 @@
+.footer {
+  text-align: center;
+  grid-row: 3;
+  grid-column: 1/4;
+}
+
+.link,
+.link:focus,
+.link:active {
+  text-decoration: none;
+  color: #000000;
+}
+
+.showtext {
+  position: absolute;
+  transform: translateX(5px);
+}

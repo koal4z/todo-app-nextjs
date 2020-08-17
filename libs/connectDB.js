@@ -5,7 +5,6 @@ const connection = {};
 
 async function dbConnect() {
   if (connection.isConnected) {
-    console.log('DB already connect!');
     return;
   }
   try {
@@ -13,11 +12,10 @@ async function dbConnect() {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useCreateIndex: true,
-      useFindAndModify: true
+      useFindAndModify: false
     });
 
     connection.isConnected = db.connections[0].readyState;
-    console.log('DB connect successfuly');
   } catch (err) {
     console.log(err);
   }
