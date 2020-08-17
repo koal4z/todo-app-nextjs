@@ -45,25 +45,30 @@ export default function Todo({ todoData }) {
     }
   };
 
-  const isShowInput = () => {
-    if (!showInput) {
-      setShowInput(true);
-    } else {
-      setShowInput(false);
-    }
-  };
-
-  const handleChange = (e) => {
-    const { value } = e.target;
-    setInput(value);
-  };
-
   const addList = () => {
     if (input !== '') {
       // setList([...list, input]);
       createTodoData({ name: input, listName: todo });
       setInput('');
     }
+  };
+
+  const isShowInput = () => {
+    if (!showInput) {
+      setShowInput(true);
+    } else {
+      setShowInput(false);
+    }
+
+    if (input) {
+      addList();
+      setShowInput(true);
+    }
+  };
+
+  const handleChange = (e) => {
+    const { value } = e.target;
+    setInput(value);
   };
 
   const isEnter = (e) => {

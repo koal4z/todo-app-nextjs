@@ -4,10 +4,11 @@ import uri from './setMongodbName';
 const connection = {};
 
 async function dbConnect() {
-  if (connection.isConnected) {
-    return;
-  }
   try {
+    if (connection.isConnected) {
+      return;
+    }
+
     const db = await mongoose.connect(uri, {
       useNewUrlParser: true,
       useUnifiedTopology: true,

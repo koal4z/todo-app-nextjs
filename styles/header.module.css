@@ -24,4 +24,11 @@
 
   outline: 2px solid #000000;
   outline-offset: 5px;
+  transition: all 0.2s;
+}
+
+.switch:hover {
+  outline-offset: 0;
+  width: 65px;
+  height: 70%;
 }
